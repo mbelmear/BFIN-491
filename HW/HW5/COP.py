@@ -13,7 +13,7 @@ END_DATE = "2024-12-31"
 df = yf.download([RISKY_ASSET, MARKET_BENCHMARK],
                  start=START_DATE,
                  end=END_DATE,
-                 auto_adjust = False, 
+                 auto_adjust=False, 
                  progress=False)
 
 print(f'Downloaded {df.shape[0]} rows of data.')
@@ -42,7 +42,7 @@ df_rf = yf.download("^IRX",
 rf = df_rf.resample("M").last().Close / 100
 
 # calculate the corresponding daily risk-free return  
-rf = ( 1 / (1 - rf * N_DAYS / 360) )**(1 / N_DAYS)  
+rf = (1 / (1 - rf * N_DAYS / 360))**(1 / N_DAYS)  
 
 # convert to monthly and subtract 1
 rf = (rf ** 30) - 1 
@@ -64,6 +64,7 @@ X["mkt_prm"] = (
 )
 
 X.head()
+
 def rolling_factor_model(input_data, formula, window_size):
     """
     Function for estimating the Fama-French (n-factor) model using a rolling window of fixed size.
@@ -112,17 +113,18 @@ results_df = rolling_factor_model(X,
 # Print the last 10 beta estimation.
 results_df.iloc[-10:]
 
+# Plotting Rolling CAPM Model
 (
-
     results_df
-    .plot(title = "Correct Rolling CAPM model",
+    .plot(title="Rolling CAPM Model",
           style=["-", "--", "-.", ":"])
-    .legend(loc="center left",bbox_to_anchor=(1.0, 0.5))
+    .legend(loc="center left", bbox_to_anchor=(1.0, 0.5))
 )
-
 
 sns.despine()
 plt.tight_layout()
+
+plt.show()  # This line ensures the plot is displayed
 
 ff_dict = web.DataReader("F-F_Research_Data_Factors", 
                          "famafrench", 
@@ -145,7 +147,7 @@ factor_3_df.head()
 asset_df = yf.download(RISKY_ASSET,
                        start=START_DATE,
                        end=END_DATE,
-                       auto_adjust = False, 
+                       auto_adjust=False, 
                        progress=False)
 
 print(f"Downloaded {asset_df.shape[0]} rows of data.")
@@ -193,7 +195,7 @@ factor_5_df = web.DataReader("F-F_Research_Data_5_Factors_2x3",
 asset_df = yf.download(RISKY_ASSET,
                        start=START_DATE,
                        end=END_DATE,
-                       auto_adjust = False, 
+                       auto_adjust=False, 
                        progress=False)
 
 print(f"Downloaded {asset_df.shape[0]} rows of data.")
